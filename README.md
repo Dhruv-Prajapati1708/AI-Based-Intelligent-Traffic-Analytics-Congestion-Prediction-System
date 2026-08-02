@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # IntelliTraffic
 
 **AI-Based Intelligent Traffic Analytics & Congestion Prediction System**
@@ -123,3 +124,6 @@ IntelliTraffic/
 ## 📜 License
 
 This project is licensed under the [MIT License](LICENSE).
+=======
+# AI-Based-Intelligent-Traffic-Analytics-Congestion-Prediction-System
+>>>>>>> 66712880a9eb31fddf1e3a71b9917f1e1278b18c
