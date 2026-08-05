@@ -24,7 +24,7 @@ def main():
         
     # Execute preprocessing pipeline
     print("\n[Step 2/2] Running data preprocessing & feature engineering pipeline...")
-    processed_df = run_preprocessing_pipeline(raw_csv, processed_csv)
+    processed_df, _ = run_preprocessing_pipeline(raw_csv, processed_csv)
     print("-> Data Pipeline execution completed successfully!")
 
 
