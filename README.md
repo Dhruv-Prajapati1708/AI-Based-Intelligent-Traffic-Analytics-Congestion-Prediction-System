@@ -1,3 +1,5 @@
+<img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/85f88cc1-df4d-4bf1-a1e3-b16966df7c4d" />
+<img width="1917" height="913" alt="image" src="https://github.com/user-attachments/assets/c100c7e4-d1b0-43c6-807e-cd4fb305c04e" />
 # 🚦 IntelliTraffic
 
 **AI-Based Intelligent Traffic Analytics & Congestion Prediction System**
