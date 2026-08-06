@@ -1,12 +1,8 @@
 """
-Preprocessing utilities for IntelliTraffic.
-This module will handle traffic data cleaning, normalization, missing value imputation,
-feature engineering, and time-series transformation.
-"""
-"""
 Preprocessing & Feature Engineering utilities for IntelliTraffic.
 Handles traffic data cleaning, temporal extraction, lag & rolling features, encoding, and scaling.
 """
+
 
 import os
 from typing import Tuple, Dict, Any
@@ -119,10 +115,11 @@ def create_lag_and_rolling_features(df: pd.DataFrame) -> pd.DataFrame:
 def encode_and_scale_features(
     df: pd.DataFrame, 
     categorical_cols: list = None,
-    numeric_cols: list = None
+    numeric_cols: list = None,
+    scale_numeric: bool = False
 ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     """
-    One-hot encodes categorical columns and standard-scales numerical features.
+    One-hot encodes categorical columns and optionally standard-scales numerical features.
     """
     df_proc = df.copy()
     if categorical_cols is None:
@@ -153,13 +150,16 @@ def encode_and_scale_features(
     # Standard scaling
     if present_num_cols:
         scaler = StandardScaler()
-        df_proc[present_num_cols] = scaler.fit_transform(df_proc[present_num_cols])
+        if scale_numeric:
+            df_proc[present_num_cols] = scaler.fit_transform(df_proc[present_num_cols])
+        else:
+            scaler.fit(df_proc[present_num_cols])
         transformers["scaler"] = scaler
 
     return df_proc, transformers
 
 
-def run_preprocessing_pipeline(input_path: str, output_path: str) -> pd.DataFrame:
+def run_preprocessing_pipeline(input_path: str, output_path: str) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     """
     Full end-to-end preprocessing pipeline for raw traffic data.
     """
@@ -176,7 +176,7 @@ def run_preprocessing_pipeline(input_path: str, output_path: str) -> pd.DataFram
     featured_df = create_lag_and_rolling_features(temporal_df)
     
     print("Encoding categorical & scaling numeric features...")
-    processed_df, _ = encode_and_scale_features(featured_df)
+    processed_df, transformers = encode_and_scale_features(featured_df)
     
     output_dir = os.path.dirname(output_path)
     if output_dir:
@@ -185,4 +185,4 @@ def run_preprocessing_pipeline(input_path: str, output_path: str) -> pd.DataFram
     processed_df.to_csv(output_path, index=False)
     print(f"Preprocessing completed. Processed dataset saved to: {output_path} ({len(processed_df)} records, {processed_df.shape[1]} features).")
     
-    return processed_df
+    return processed_df, transformers
